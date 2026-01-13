@@ -109,7 +109,7 @@ def main(
 
     [bold]Examples:[/bold]
 
-        compress-pdf document.pdf                    # Creates document_compressed.pdf
+        compress-pdf document.pdf                    # Creates document.compressed.pdf
         compress-pdf document.pdf -o small.pdf       # Creates small.pdf
         compress-pdf *.pdf -d compressed/            # Batch compress to directory
         compress-pdf -i large.pdf                    # Replace original
@@ -254,8 +254,8 @@ def resolve_output_path(
     if in_place:
         return input_path
     if output_dir:
-        return output_dir / f"{input_path.stem}_compressed.pdf"
-    return input_path.parent / f"{input_path.stem}_compressed.pdf"
+        return output_dir / f"{input_path.stem}.compressed.pdf"
+    return input_path.parent / f"{input_path.stem}.compressed.pdf"
 
 
 def show_result(outcome: CompressionOutcome) -> None:
