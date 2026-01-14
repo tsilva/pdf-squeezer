@@ -37,7 +37,7 @@ dev = [
 ]
 
 [project.scripts]
-compress-pdf = "pdf_compressor.cli:app"
+pdf-compressor = "pdf_compressor.cli:app"
 
 [project.urls]
 Homepage = "https://github.com/tsilva/pdf-compressor"

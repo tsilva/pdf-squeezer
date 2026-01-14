@@ -40,10 +40,16 @@ apt install ghostscript
 dnf install ghostscript
 ```
 
-### Install with uv (recommended)
+### Install as global tool (recommended)
 
 ```bash
-uv pip install git+https://github.com/tsilva/pdf-compressor.git
+uv tool install git+https://github.com/tsilva/pdf-compressor.git
+```
+
+This installs `pdf-compressor` as a globally available command in an isolated environment. To upgrade later:
+
+```bash
+uv tool upgrade pdf-compressor
 ```
 
 ### Install with pip
@@ -57,35 +63,35 @@ pip install git+https://github.com/tsilva/pdf-compressor.git
 ```bash
 git clone https://github.com/tsilva/pdf-compressor.git
 cd pdf-compressor
-uv pip install -e .
+uv tool install -e .
 ```
 
 ## Usage
 
 ```bash
 # Compress a single file (creates document_compressed.pdf)
-compress-pdf document.pdf
+pdf-compressor document.pdf
 
 # Specify output filename
-compress-pdf document.pdf -o small.pdf
+pdf-compressor document.pdf -o small.pdf
 
 # Batch compress multiple files
-compress-pdf *.pdf
+pdf-compressor *.pdf
 
 # Compress to a specific directory
-compress-pdf *.pdf -d compressed/
+pdf-compressor *.pdf -d compressed/
 
 # Replace original files (use with caution)
-compress-pdf -i large.pdf
+pdf-compressor -i large.pdf
 
 # Use 4 parallel workers for batch compression
-compress-pdf *.pdf -j 4
+pdf-compressor *.pdf -j 4
 
 # Use ebook quality (150 DPI) instead of screen (72 DPI)
-compress-pdf document.pdf -Q ebook
+pdf-compressor document.pdf -Q ebook
 
 # Quiet mode (no output except errors)
-compress-pdf -q document.pdf
+pdf-compressor -q document.pdf
 ```
 
 ### Options

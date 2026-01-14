@@ -9,15 +9,15 @@ PDF compression CLI tool that tries multiple compression strategies (pikepdf, Gh
 ## Commands
 
 ```bash
-# Install dependencies
-uv pip install -e .
+# Install as global tool
+uv tool install .
 
-# Install with dev dependencies
+# Install for development (editable with dev dependencies)
 uv pip install -e ".[dev]"
 
 # Run the tool
-compress-pdf document.pdf
-compress-pdf *.pdf -j 4  # parallel processing
+pdf-compressor document.pdf
+pdf-compressor *.pdf -j 4  # parallel processing
 
 # Run tests
 pytest
