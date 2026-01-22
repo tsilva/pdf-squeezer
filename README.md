@@ -1,26 +1,29 @@
-# pdf-compressor
+<div align="center">
+  <img src="logo.png" alt="pdf-compressor" width="256"/>
 
-[![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white)](https://www.python.org/)
-[![Ghostscript](https://img.shields.io/badge/Ghostscript-000000?logo=ghostscript&logoColor=white)](https://www.ghostscript.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub](https://img.shields.io/badge/GitHub-tsilva%2Fpdf--compressor-blue?logo=github)](https://github.com/tsilva/pdf-compressor)
+  # pdf-compressor
 
-A reliable PDF compression CLI tool that automatically selects the best compression strategy for each file.
+  [![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white)](https://www.python.org/)
+  [![PyPI](https://img.shields.io/pypi/v/pdf-compressor?logo=pypi&logoColor=white)](https://pypi.org/project/pdf-compressor/)
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+  [![Ghostscript](https://img.shields.io/badge/Requires-Ghostscript-000000)](https://www.ghostscript.com/)
+
+  **📄 Compress PDFs by trying multiple strategies and keeping the smallest result ⚡**
+
+  [Installation](#installation) · [Usage](#usage) · [How It Works](#how-it-works)
+</div>
 
 ## Overview
 
 Different PDFs respond better to different compression methods. Some are already optimized, others are bloated with high-resolution images. This tool eliminates the guesswork by trying multiple compression strategies and keeping the smallest result.
 
-The tool is fast, scriptable, and works great for batch processing. It supports single files, wildcards, custom output directories, in-place replacement, and parallel processing.
-
 ## Features
 
 - **Smart compression** - Tries 3 strategies and picks the best result
 - **Batch processing** - Compress multiple files with wildcards (`*.pdf`)
-- **Parallel processing** - Compress multiple files concurrently for faster batch operations
-- **Flexible output** - Custom filenames, directories, or in-place replacement
+- **Parallel processing** - Compress multiple files concurrently with `-j`
 - **Quality presets** - Choose between screen, ebook, printer, or prepress quality
-- **Cross-platform** - Works on macOS and Linux
+- **Flexible output** - Custom filenames, directories, or in-place replacement
 - **Scriptable** - Quiet mode for automation and pipelines
 
 ## Installation
@@ -46,7 +49,7 @@ dnf install ghostscript
 uv tool install git+https://github.com/tsilva/pdf-compressor.git
 ```
 
-This installs `pdf-compressor` as a globally available command in an isolated environment. To upgrade later:
+To upgrade later:
 
 ```bash
 uv tool upgrade pdf-compressor
@@ -58,18 +61,10 @@ uv tool upgrade pdf-compressor
 pip install git+https://github.com/tsilva/pdf-compressor.git
 ```
 
-### Install from source
-
-```bash
-git clone https://github.com/tsilva/pdf-compressor.git
-cd pdf-compressor
-uv tool install -e .
-```
-
 ## Usage
 
 ```bash
-# Compress a single file (creates document_compressed.pdf)
+# Compress a single file (creates document.compressed.pdf)
 pdf-compressor document.pdf
 
 # Specify output filename
@@ -87,8 +82,8 @@ pdf-compressor -i large.pdf
 # Use 4 parallel workers for batch compression
 pdf-compressor *.pdf -j 4
 
-# Use ebook quality (150 DPI) instead of screen (72 DPI)
-pdf-compressor document.pdf -Q ebook
+# Use screen quality (72 DPI) for smallest size
+pdf-compressor document.pdf -Q screen
 
 # Quiet mode (no output except errors)
 pdf-compressor -q document.pdf
@@ -137,24 +132,7 @@ If none of the strategies produce a smaller file, the original is preserved.
 
 Results vary depending on PDF content. Image-heavy PDFs typically see the largest reductions.
 
-## Repository Structure
-
-```
-pdf-compressor/
-├── pyproject.toml              # Project configuration
-├── src/
-│   └── pdf_compressor/
-│       ├── cli.py              # CLI interface
-│       ├── core/
-│       │   ├── compressor.py   # Main orchestrator
-│       │   └── strategies/     # Compression strategies
-│       ├── parallel/           # Parallel processing
-│       └── utils/              # Utilities
-├── LICENSE                     # MIT License
-└── README.md                   # This file
-```
-
-## Reporting Issues
+## Contributing
 
 Found a bug or have a suggestion? Please open an issue:
 
