@@ -1,6 +1,7 @@
 """Command-line interface for PDF compression."""
 
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from typing import Annotated, List, Optional
 
 import typer
@@ -93,6 +94,14 @@ def main(
             help="Suppress output except errors",
         ),
     ] = False,
+    dry_run: Annotated[
+        bool,
+        typer.Option(
+            "-n",
+            "--dry-run",
+            help="Simulate compression without saving output files",
+        ),
+    ] = False,
     version: Annotated[
         Optional[bool],
         typer.Option(
@@ -114,6 +123,7 @@ def main(
         compress-pdf *.pdf -d compressed/            # Batch compress to directory
         compress-pdf -i large.pdf                    # Replace original
         compress-pdf *.pdf -j 4                      # Use 4 parallel workers
+        compress-pdf *.pdf --dry-run                 # Preview compression without saving
     """
     # Validate arguments
     if not files:
@@ -126,6 +136,10 @@ def main(
 
     if output and in_place:
         console.print("[red]Error:[/red] Cannot use -o and -i together.")
+        raise typer.Exit(1)
+
+    if dry_run and (output or in_place):
+        console.print("[red]Error:[/red] Cannot use --dry-run with -o or -i.")
         raise typer.Exit(1)
 
     # Validate quality preset
@@ -149,16 +163,28 @@ def main(
         output_dir.mkdir(parents=True, exist_ok=True)
 
     # Process files
-    if len(files) > 1 and jobs != 1:
-        # Parallel processing for multiple files
-        outcomes = process_parallel(files, output_dir, in_place, quality, jobs, quiet)
+    if dry_run:
+        # Use temporary directory that auto-cleans on exit
+        with TemporaryDirectory() as temp_dir:
+            temp_path = Path(temp_dir)
+            if len(files) > 1 and jobs != 1:
+                outcomes = process_parallel(files, temp_path, False, quality, jobs, quiet)
+            else:
+                outcomes = process_sequential(files, None, temp_path, False, quality, quiet)
+            # Summary shown before temp dir cleanup
+            if not quiet and len(outcomes) > 1:
+                show_summary(outcomes)
     else:
-        # Sequential processing
-        outcomes = process_sequential(files, output, output_dir, in_place, quality, quiet)
+        if len(files) > 1 and jobs != 1:
+            # Parallel processing for multiple files
+            outcomes = process_parallel(files, output_dir, in_place, quality, jobs, quiet)
+        else:
+            # Sequential processing
+            outcomes = process_sequential(files, output, output_dir, in_place, quality, quiet)
 
-    # Summary
-    if not quiet and len(outcomes) > 1:
-        show_summary(outcomes)
+        # Summary
+        if not quiet and len(outcomes) > 1:
+            show_summary(outcomes)
 
     # Exit with error if any compression failed completely
     if any(o.best_strategy == "error" for o in outcomes):

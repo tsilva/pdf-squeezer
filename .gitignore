@@ -11,3 +11,4 @@ test/
 
 __pycache__
 samples/
+logs/
