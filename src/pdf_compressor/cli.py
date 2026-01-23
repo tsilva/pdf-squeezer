@@ -31,17 +31,66 @@ def version_callback(value: bool) -> None:
         raise typer.Exit()
 
 
+def discover_pdf_files(files: Optional[List[Path]]) -> List[Path]:
+    """Resolve file arguments, defaulting to *.pdf in CWD."""
+    if files:
+        # Validate provided files exist
+        resolved = []
+        for f in files:
+            path = Path(f).resolve()
+            if not path.exists():
+                console.print(f"[red]Error:[/red] File not found: {f}")
+                raise typer.Exit(1)
+            if path.is_dir():
+                console.print(f"[red]Error:[/red] Expected file, got directory: {f}")
+                raise typer.Exit(1)
+            resolved.append(path)
+        return resolved
+
+    # Default: find all PDFs in current directory
+    cwd = Path.cwd()
+    return sorted(cwd.glob("*.pdf"))
+
+
+def confirm_operation(
+    files: List[Path],
+    output_dir: Optional[Path],
+    in_place: bool,
+) -> bool:
+    """Show operation summary and ask for confirmation."""
+    cwd = Path.cwd()
+
+    console.print()
+    console.print(f"[bold]Working directory:[/bold] {cwd}")
+    console.print(f"[bold]Files to compress:[/bold] {len(files)}")
+
+    # Show sample file names (up to 5)
+    sample_count = min(5, len(files))
+    for f in files[:sample_count]:
+        console.print(f"  • {f.name}")
+    if len(files) > sample_count:
+        console.print(f"  ... and {len(files) - sample_count} more")
+
+    # Show output destination
+    if in_place:
+        console.print("[bold]Output:[/bold] [yellow]Replacing original files[/yellow]")
+    elif output_dir:
+        console.print(f"[bold]Output:[/bold] {output_dir}/")
+    else:
+        console.print("[bold]Output:[/bold] Same directory as input (*.compressed.pdf)")
+
+    console.print()
+    return typer.confirm("Proceed with compression?")
+
+
 @app.command()
 def main(
     files: Annotated[
-        List[Path],
+        Optional[List[Path]],
         typer.Argument(
-            help="Input PDF file(s) to compress",
-            exists=True,
-            dir_okay=False,
-            resolve_path=True,
+            help="Input PDF file(s) to compress (default: *.pdf in current directory)",
         ),
-    ],
+    ] = None,
     output: Annotated[
         Optional[Path],
         typer.Option(
@@ -118,17 +167,20 @@ def main(
 
     [bold]Examples:[/bold]
 
-        compress-pdf document.pdf                    # Creates document.compressed.pdf
-        compress-pdf document.pdf -o small.pdf       # Creates small.pdf
-        compress-pdf *.pdf -d compressed/            # Batch compress to directory
-        compress-pdf -i large.pdf                    # Replace original
-        compress-pdf *.pdf -j 4                      # Use 4 parallel workers
-        compress-pdf *.pdf --dry-run                 # Preview compression without saving
+        pdf-compressor                               # Compress all *.pdf in current directory
+        pdf-compressor document.pdf                  # Creates document.compressed.pdf
+        pdf-compressor document.pdf -o small.pdf    # Creates small.pdf
+        pdf-compressor *.pdf -d compressed/         # Batch compress to directory
+        pdf-compressor -i *.pdf                     # Replace original files
+        pdf-compressor *.pdf -j 4                   # Use 4 parallel workers
+        pdf-compressor --dry-run                    # Preview compression without saving
     """
-    # Validate arguments
+    # Resolve files (handles default *.pdf pattern)
+    files = discover_pdf_files(files)
+
     if not files:
-        console.print("[red]Error:[/red] No input files specified")
-        raise typer.Exit(1)
+        console.print("[yellow]No PDF files found in current directory.[/yellow]")
+        raise typer.Exit(0)
 
     if output and len(files) > 1:
         console.print("[red]Error:[/red] Cannot use -o with multiple files. Use -d instead.")
@@ -161,6 +213,12 @@ def main(
     # Create output directory if needed
     if output_dir:
         output_dir.mkdir(parents=True, exist_ok=True)
+
+    # Confirm operation (skip in dry-run or quiet mode)
+    if not dry_run and not quiet:
+        if not confirm_operation(files, output_dir, in_place):
+            console.print("Operation cancelled.")
+            raise typer.Exit(0)
 
     # Process files
     if dry_run:
