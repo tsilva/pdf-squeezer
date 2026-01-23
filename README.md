@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="logo.png" alt="pdf-compressor" width="256"/>
+  <img src="logo.png" alt="pdf-compressor" width="512"/>
 
   # pdf-compressor
 
