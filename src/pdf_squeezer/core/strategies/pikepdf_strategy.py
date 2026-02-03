@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pikepdf
 
-from pdf_compressor.core.strategies.base import CompressionResult, CompressionStrategy
+from pdf_squeezer.core.strategies.base import CompressionResult, CompressionStrategy
 
 
 class PikepdfStrategy(CompressionStrategy):

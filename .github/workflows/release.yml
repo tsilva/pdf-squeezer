@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths:
       - pyproject.toml
-      - src/pdf_compressor/__init__.py
+      - src/pdf_squeezer/__init__.py
 
 permissions:
   contents: write

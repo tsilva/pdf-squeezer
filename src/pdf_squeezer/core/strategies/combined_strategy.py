@@ -3,9 +3,9 @@
 import tempfile
 from pathlib import Path
 
-from pdf_compressor.core.strategies.base import CompressionResult, CompressionStrategy
-from pdf_compressor.core.strategies.ghostscript_strategy import GhostscriptStrategy
-from pdf_compressor.core.strategies.pikepdf_strategy import PikepdfStrategy
+from pdf_squeezer.core.strategies.base import CompressionResult, CompressionStrategy
+from pdf_squeezer.core.strategies.ghostscript_strategy import GhostscriptStrategy
+from pdf_squeezer.core.strategies.pikepdf_strategy import PikepdfStrategy
 
 
 class CombinedStrategy(CompressionStrategy):

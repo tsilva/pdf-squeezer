@@ -37,7 +37,7 @@ dev = [
 ]
 
 [project.scripts]
-pdf-squeezer = "pdf_compressor.cli:app"
+pdf-squeezer = "pdf_squeezer.cli:app"
 
 [project.urls]
 Homepage = "https://github.com/tsilva/pdf-squeezer"
@@ -49,10 +49,10 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.version]
-path = "src/pdf_compressor/__init__.py"
+path = "src/pdf_squeezer/__init__.py"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/pdf_compressor"]
+packages = ["src/pdf_squeezer"]
 
 [tool.ruff]
 line-length = 100

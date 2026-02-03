@@ -5,7 +5,7 @@ import subprocess
 from pathlib import Path
 from typing import Optional
 
-from pdf_compressor.core.strategies.base import CompressionResult, CompressionStrategy
+from pdf_squeezer.core.strategies.base import CompressionResult, CompressionStrategy
 
 
 class GhostscriptStrategy(CompressionStrategy):

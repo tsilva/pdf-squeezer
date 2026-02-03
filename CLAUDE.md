@@ -31,7 +31,7 @@ mypy src/
 
 ## Architecture
 
-**Strategy Pattern**: The core uses a strategy pattern where each compression method (`src/pdf_compressor/core/strategies/`) implements `CompressionStrategy`. The orchestrator (`PDFCompressor` in `compressor.py`) tries all strategies and picks the smallest successful output.
+**Strategy Pattern**: The core uses a strategy pattern where each compression method (`src/pdf_squeezer/core/strategies/`) implements `CompressionStrategy`. The orchestrator (`PDFCompressor` in `compressor.py`) tries all strategies and picks the smallest successful output.
 
 Three strategies:
 - `PikepdfStrategy` - Lossless optimization via pikepdf (linearization, stream compression)

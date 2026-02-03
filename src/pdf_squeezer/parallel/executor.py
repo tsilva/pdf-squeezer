@@ -5,7 +5,7 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 from pathlib import Path
 from typing import Callable, List, Optional, Tuple
 
-from pdf_compressor.core.compressor import CompressionOutcome, PDFCompressor
+from pdf_squeezer.core.compressor import CompressionOutcome, PDFCompressor
 
 
 def _compress_single(args: Tuple[Path, Path, str]) -> CompressionOutcome:

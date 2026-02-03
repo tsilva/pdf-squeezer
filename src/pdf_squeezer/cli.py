@@ -9,14 +9,14 @@ from rich.console import Console
 from rich.progress import BarColumn, Progress, SpinnerColumn, TaskProgressColumn, TextColumn
 from rich.table import Table
 
-from pdf_compressor import __version__
-from pdf_compressor.core.compressor import CompressionOutcome, PDFCompressor
-from pdf_compressor.parallel.executor import ParallelCompressor
-from pdf_compressor.utils.dependencies import check_dependencies, get_install_instructions
-from pdf_compressor.utils.filesize import format_size
+from pdf_squeezer import __version__
+from pdf_squeezer.core.compressor import CompressionOutcome, PDFCompressor
+from pdf_squeezer.parallel.executor import ParallelCompressor
+from pdf_squeezer.utils.dependencies import check_dependencies, get_install_instructions
+from pdf_squeezer.utils.filesize import format_size
 
 app = typer.Typer(
-    name="compress-pdf",
+    name="pdf-squeezer",
     help="Reliable PDF compression using multiple strategies.",
     add_completion=False,
     rich_markup_mode="rich",
@@ -27,7 +27,7 @@ console = Console()
 def version_callback(value: bool) -> None:
     """Show version and exit."""
     if value:
-        console.print(f"compress-pdf v{__version__}")
+        console.print(f"pdf-squeezer v{__version__}")
         raise typer.Exit()
 
 
@@ -167,13 +167,13 @@ def main(
 
     [bold]Examples:[/bold]
 
-        pdf-compressor                               # Compress all *.pdf in current directory
-        pdf-compressor document.pdf                  # Creates document.compressed.pdf
-        pdf-compressor document.pdf -o small.pdf    # Creates small.pdf
-        pdf-compressor *.pdf -d compressed/         # Batch compress to directory
-        pdf-compressor -i *.pdf                     # Replace original files
-        pdf-compressor *.pdf -j 4                   # Use 4 parallel workers
-        pdf-compressor --dry-run                    # Preview compression without saving
+        pdf-squeezer                               # Compress all *.pdf in current directory
+        pdf-squeezer document.pdf                  # Creates document.compressed.pdf
+        pdf-squeezer document.pdf -o small.pdf    # Creates small.pdf
+        pdf-squeezer *.pdf -d compressed/         # Batch compress to directory
+        pdf-squeezer -i *.pdf                     # Replace original files
+        pdf-squeezer *.pdf -j 4                   # Use 4 parallel workers
+        pdf-squeezer --dry-run                    # Preview compression without saving
     """
     # Resolve files (handles default *.pdf pattern)
     files = discover_pdf_files(files)
