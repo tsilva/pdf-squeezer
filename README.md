@@ -1,10 +1,10 @@
 <div align="center">
-  <img src="logo.png" alt="pdf-compressor" width="512"/>
+  <img src="logo.png" alt="pdf-squeezer" width="512"/>
 
-  # pdf-compressor
+  # pdf-squeezer
 
   [![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white)](https://www.python.org/)
-  [![PyPI](https://img.shields.io/pypi/v/pdf-compressor?logo=pypi&logoColor=white)](https://pypi.org/project/pdf-compressor/)
+  [![PyPI](https://img.shields.io/pypi/v/pdf-squeezer?logo=pypi&logoColor=white)](https://pypi.org/project/pdf-squeezer/)
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
   [![Ghostscript](https://img.shields.io/badge/Requires-Ghostscript-000000)](https://www.ghostscript.com/)
 
@@ -43,19 +43,19 @@ apt install ghostscript
 dnf install ghostscript
 ```
 
-### Install as global tool (recommended)
+### Install from PyPI (recommended)
 
 ```bash
-uv tool install git+https://github.com/tsilva/pdf-compressor.git
+pip install pdf-squeezer
 ```
 
-To upgrade later:
+Or with uv:
 
 ```bash
-uv tool upgrade pdf-compressor
+uv tool install pdf-squeezer
 ```
 
-### Install with pip
+### Install from source
 
 ```bash
 pip install git+https://github.com/tsilva/pdf-compressor.git
@@ -65,28 +65,28 @@ pip install git+https://github.com/tsilva/pdf-compressor.git
 
 ```bash
 # Compress a single file (creates document.compressed.pdf)
-pdf-compressor document.pdf
+pdf-squeezer document.pdf
 
 # Specify output filename
-pdf-compressor document.pdf -o small.pdf
+pdf-squeezer document.pdf -o small.pdf
 
 # Batch compress multiple files
-pdf-compressor *.pdf
+pdf-squeezer *.pdf
 
 # Compress to a specific directory
-pdf-compressor *.pdf -d compressed/
+pdf-squeezer *.pdf -d compressed/
 
 # Replace original files (use with caution)
-pdf-compressor -i large.pdf
+pdf-squeezer -i large.pdf
 
 # Use 4 parallel workers for batch compression
-pdf-compressor *.pdf -j 4
+pdf-squeezer *.pdf -j 4
 
 # Use screen quality (72 DPI) for smallest size
-pdf-compressor document.pdf -Q screen
+pdf-squeezer document.pdf -Q screen
 
 # Quiet mode (no output except errors)
-pdf-compressor -q document.pdf
+pdf-squeezer -q document.pdf
 ```
 
 ### Options

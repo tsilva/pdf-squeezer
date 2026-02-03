@@ -1,6 +1,6 @@
 [project]
-name = "pdf-compressor"
-version = "2.0.0"
+name = "pdf-squeezer"
+dynamic = ["version"]
 description = "Reliable PDF compression using multiple strategies to minimize quality loss while maximizing compression"
 readme = "README.md"
 license = { text = "MIT" }
@@ -37,7 +37,7 @@ dev = [
 ]
 
 [project.scripts]
-pdf-compressor = "pdf_compressor.cli:app"
+pdf-squeezer = "pdf_compressor.cli:app"
 
 [project.urls]
 Homepage = "https://github.com/tsilva/pdf-compressor"
@@ -47,6 +47,9 @@ Issues = "https://github.com/tsilva/pdf-compressor/issues"
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "src/pdf_compressor/__init__.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/pdf_compressor"]

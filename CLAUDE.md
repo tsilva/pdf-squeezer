@@ -16,8 +16,8 @@ uv tool install .
 uv pip install -e ".[dev]"
 
 # Run the tool
-pdf-compressor document.pdf
-pdf-compressor *.pdf -j 4  # parallel processing
+pdf-squeezer document.pdf
+pdf-squeezer *.pdf -j 4  # parallel processing
 
 # Run tests
 pytest
