@@ -452,8 +452,7 @@ wheels = [
 ]
 
 [[package]]
-name = "pdf-compressor"
-version = "2.0.0"
+name = "pdf-squeezer"
 source = { editable = "." }
 dependencies = [
     { name = "pikepdf" },
