@@ -21,12 +21,7 @@ jobs:
 
   pii-scan:
     uses: tsilva/.github/.github/workflows/pii-scan.yml@main
-
-  sync-description:
-    needs: [test, pii-scan]
-    uses: tsilva/.github/.github/workflows/sync-repo-description.yml@main
-    secrets: inherit
-
+    
   publish-pypi:
     needs: [test, pii-scan]
     runs-on: ubuntu-latest
