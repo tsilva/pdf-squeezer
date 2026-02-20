@@ -2,7 +2,7 @@
 > ## Archived
 > This project is archived and no longer maintained.
 >
-> Its features have been merged into [pdfsmith](https://github.com/tsilva/pdfsmith). Please use that project instead.
+> Its features have been merged into [pdfsmith](https://github.com/tsilva/pdfpress). Please use that project instead.
 
 <div align="center">
   <img src="logo.png" alt="pdf-squeezer" width="512"/>
