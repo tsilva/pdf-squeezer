@@ -1,12 +1,12 @@
 [project]
-name = "pdf-squeezer"
+name = "pdfsmith"
 dynamic = ["version"]
-description = "Reliable PDF compression using multiple strategies to minimize quality loss while maximizing compression"
+description = "PDF toolkit: compress, merge, and unlock PDF files"
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.10"
 authors = [{ name = "Tiago Silva", email = "tiago@tsilva.com" }]
-keywords = ["pdf", "compression", "optimization", "ghostscript", "qpdf", "pikepdf"]
+keywords = ["pdf", "compression", "optimization", "ghostscript", "pikepdf", "merge", "unlock", "password", "combine"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Environment :: Console",
@@ -37,7 +37,7 @@ dev = [
 ]
 
 [project.scripts]
-pdf-squeezer = "pdf_squeezer.cli:app"
+pdfsmith = "pdfsmith.cli:app"
 
 [project.urls]
 Homepage = "https://github.com/tsilva/pdf-squeezer"
@@ -49,10 +49,10 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.version]
-path = "src/pdf_squeezer/__init__.py"
+path = "src/pdfsmith/__init__.py"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/pdf_squeezer"]
+packages = ["src/pdfsmith"]
 
 [tool.ruff]
 line-length = 100

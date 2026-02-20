@@ -6,10 +6,10 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Optional
 
-from pdf_squeezer.core.strategies.base import CompressionResult, CompressionStrategy
-from pdf_squeezer.core.strategies.combined_strategy import CombinedStrategy
-from pdf_squeezer.core.strategies.ghostscript_strategy import GhostscriptStrategy
-from pdf_squeezer.core.strategies.pikepdf_strategy import PikepdfStrategy
+from pdfsmith.core.strategies.base import CompressionResult, CompressionStrategy
+from pdfsmith.core.strategies.combined_strategy import CombinedStrategy
+from pdfsmith.core.strategies.ghostscript_strategy import GhostscriptStrategy
+from pdfsmith.core.strategies.pikepdf_strategy import PikepdfStrategy
 
 
 @dataclass

@@ -9,11 +9,11 @@ from rich.console import Console
 from rich.progress import BarColumn, Progress, SpinnerColumn, TaskProgressColumn, TextColumn
 from rich.table import Table
 
-from pdf_squeezer import __version__
-from pdf_squeezer.core.compressor import CompressionOutcome, PDFCompressor
-from pdf_squeezer.parallel.executor import ParallelCompressor
-from pdf_squeezer.utils.dependencies import check_dependencies, get_install_instructions
-from pdf_squeezer.utils.filesize import format_size
+from pdfsmith import __version__
+from pdfsmith.core.compressor import CompressionOutcome, PDFCompressor
+from pdfsmith.parallel.executor import ParallelCompressor
+from pdfsmith.utils.dependencies import check_dependencies, get_install_instructions
+from pdfsmith.utils.filesize import format_size
 
 app = typer.Typer(
     name="pdf-squeezer",

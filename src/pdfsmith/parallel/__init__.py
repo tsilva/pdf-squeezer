@@ -1,5 +1,5 @@
 """Parallel processing functionality."""
 
-from pdf_squeezer.parallel.executor import ParallelCompressor
+from pdfsmith.parallel.executor import ParallelCompressor
 
 __all__ = ["ParallelCompressor"]
