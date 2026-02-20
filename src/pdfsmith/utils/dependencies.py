@@ -1,10 +1,9 @@
 """External dependency checking utilities."""
 
 import shutil
-from typing import List
 
 
-def check_dependencies() -> List[str]:
+def check_dependencies() -> list[str]:
     """
     Check for required external dependencies.
 

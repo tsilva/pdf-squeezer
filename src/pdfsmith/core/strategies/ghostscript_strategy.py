@@ -3,7 +3,6 @@
 import shutil
 import subprocess
 from pathlib import Path
-from typing import Optional
 
 from pdfsmith.core.strategies.base import CompressionResult, CompressionStrategy
 
@@ -27,7 +26,7 @@ class GhostscriptStrategy(CompressionStrategy):
         "default": "/default",  # General purpose
     }
 
-    def __init__(self, gs_path: Optional[str] = None):
+    def __init__(self, gs_path: str | None = None):
         """Initialize with optional Ghostscript path."""
         self.gs_path = gs_path or self._find_ghostscript()
 

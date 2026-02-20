@@ -1,6 +1,6 @@
 """Command-line interface for pdfsmith."""
 
-from typing import Annotated, Optional
+from typing import Annotated
 
 import typer
 from rich.console import Console
@@ -27,7 +27,7 @@ def version_callback(value: bool) -> None:
 @app.callback()
 def _callback(
     version: Annotated[
-        Optional[bool],
+        bool | None,
         typer.Option(
             "-v",
             "--version",

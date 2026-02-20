@@ -4,7 +4,6 @@ import shutil
 import tempfile
 from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Optional
 
 from pdfsmith.core.strategies.base import CompressionResult, CompressionStrategy
 from pdfsmith.core.strategies.combined_strategy import CombinedStrategy
@@ -21,7 +20,7 @@ class CompressionOutcome:
     original_size: int
     final_size: int
     best_strategy: str
-    all_results: List[CompressionResult]
+    all_results: list[CompressionResult]
 
     @property
     def reduction_percent(self) -> int:
@@ -55,7 +54,7 @@ class PDFCompressor:
         self.quality = quality
 
         # Initialize strategies
-        self.strategies: List[CompressionStrategy] = [
+        self.strategies: list[CompressionStrategy] = [
             PikepdfStrategy(),
             GhostscriptStrategy(),
             CombinedStrategy(),
@@ -77,7 +76,7 @@ class PDFCompressor:
             CompressionOutcome with details about the compression
         """
         original_size = input_path.stat().st_size
-        results: List[CompressionResult] = []
+        results: list[CompressionResult] = []
 
         with tempfile.TemporaryDirectory() as tmpdir:
             tmpdir_path = Path(tmpdir)
@@ -89,7 +88,7 @@ class PDFCompressor:
                 results.append(result)
 
             # Find best result (smallest successful output)
-            best_result: Optional[CompressionResult] = None
+            best_result: CompressionResult | None = None
             best_size = original_size
 
             for result in results:

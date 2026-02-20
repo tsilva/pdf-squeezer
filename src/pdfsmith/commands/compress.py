@@ -2,7 +2,7 @@
 
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Annotated, List, Optional
+from typing import Annotated
 
 import typer
 from rich.progress import BarColumn, Progress, SpinnerColumn, TaskProgressColumn, TextColumn
@@ -21,13 +21,13 @@ def register(app: typer.Typer) -> None:
 
 def main(
     files: Annotated[
-        Optional[List[Path]],
+        list[Path] | None,
         typer.Argument(
             help="Input PDF file(s) to compress (default: *.pdf in current directory)",
         ),
     ] = None,
     output: Annotated[
-        Optional[Path],
+        Path | None,
         typer.Option(
             "-o",
             "--output",
@@ -36,7 +36,7 @@ def main(
         ),
     ] = None,
     output_dir: Annotated[
-        Optional[Path],
+        Path | None,
         typer.Option(
             "-d",
             "--output-dir",
@@ -168,7 +168,7 @@ def main(
         raise typer.Exit(1)
 
 
-def _discover_pdf_files(files: Optional[List[Path]]) -> List[Path]:
+def _discover_pdf_files(files: list[Path] | None) -> list[Path]:
     """Resolve file arguments, defaulting to *.pdf in CWD."""
     if files:
         resolved = []
@@ -188,8 +188,8 @@ def _discover_pdf_files(files: Optional[List[Path]]) -> List[Path]:
 
 
 def _confirm_operation(
-    files: List[Path],
-    output_dir: Optional[Path],
+    files: list[Path],
+    output_dir: Path | None,
     in_place: bool,
 ) -> bool:
     """Show operation summary and ask for confirmation."""
@@ -217,13 +217,13 @@ def _confirm_operation(
 
 
 def _process_sequential(
-    files: List[Path],
-    output: Optional[Path],
-    output_dir: Optional[Path],
+    files: list[Path],
+    output: Path | None,
+    output_dir: Path | None,
     in_place: bool,
     quality: str,
     quiet: bool,
-) -> List[CompressionOutcome]:
+) -> list[CompressionOutcome]:
     """Process files sequentially with progress display."""
     outcomes = []
     compressor = PDFCompressor(quality=quality)
@@ -254,13 +254,13 @@ def _process_sequential(
 
 
 def _process_parallel(
-    files: List[Path],
-    output_dir: Optional[Path],
+    files: list[Path],
+    output_dir: Path | None,
     in_place: bool,
     quality: str,
     jobs: int,
     quiet: bool,
-) -> List[CompressionOutcome]:
+) -> list[CompressionOutcome]:
     """Process files in parallel with progress display."""
     parallel_compressor = ParallelCompressor(
         quality=quality,
@@ -294,8 +294,8 @@ def _process_parallel(
 
 def _resolve_output_path(
     input_path: Path,
-    output: Optional[Path],
-    output_dir: Optional[Path],
+    output: Path | None,
+    output_dir: Path | None,
     in_place: bool,
 ) -> Path:
     """Determine output path based on options."""
@@ -325,7 +325,7 @@ def _show_result(outcome: CompressionOutcome) -> None:
         console.print(f"  [bold]{name}[/bold] {orig} -> [yellow]{final}[/yellow] (no reduction)")
 
 
-def _show_summary(outcomes: List[CompressionOutcome]) -> None:
+def _show_summary(outcomes: list[CompressionOutcome]) -> None:
     """Display summary table for batch operations."""
     from rich.table import Table
 
@@ -344,7 +344,9 @@ def _show_summary(outcomes: List[CompressionOutcome]) -> None:
         total_final += o.final_size
 
         if o.best_strategy == "error":
-            table.add_row(o.input_path.name, format_size(o.original_size), "-", "[red]ERROR[/red]", "-")
+            table.add_row(
+                o.input_path.name, format_size(o.original_size), "-", "[red]ERROR[/red]", "-"
+            )
         else:
             reduction = f"-{o.reduction_percent}%" if o.improved else "0%"
             style = "green" if o.improved else "yellow"

@@ -1,7 +1,7 @@
 """File size formatting utilities."""
 
 
-def format_size(bytes_count: int) -> str:
+def format_size(bytes_count: float) -> str:
     """
     Format bytes to human-readable string.
 

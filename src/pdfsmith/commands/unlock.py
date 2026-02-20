@@ -1,7 +1,7 @@
 """Unlock subcommand for pdfsmith."""
 
 from pathlib import Path
-from typing import Annotated, List, Optional
+from typing import Annotated
 
 import typer
 from rich.progress import BarColumn, Progress, SpinnerColumn, TaskProgressColumn, TextColumn
@@ -19,13 +19,13 @@ def register(app: typer.Typer) -> None:
 
 def main(
     input: Annotated[
-        List[Path],
+        list[Path],
         typer.Argument(
             help="PDF files to unlock, or a single directory containing PDFs",
         ),
     ],
     output: Annotated[
-        Optional[Path],
+        Path | None,
         typer.Option(
             "-o",
             "--output",
@@ -34,7 +34,7 @@ def main(
         ),
     ] = None,
     output_dir: Annotated[
-        Optional[Path],
+        Path | None,
         typer.Option(
             "-d",
             "--output-dir",
@@ -43,7 +43,7 @@ def main(
         ),
     ] = None,
     password: Annotated[
-        Optional[str],
+        str | None,
         typer.Option(
             "-p",
             "--password",
@@ -119,7 +119,7 @@ def main(
         raise typer.Exit(1)
 
 
-def _collect_files(input: List[Path]) -> List[Path]:
+def _collect_files(input: list[Path]) -> list[Path]:
     """Resolve input arguments to a flat list of PDF paths."""
     if len(input) == 1 and input[0].is_dir():
         return sorted(p for p in input[0].iterdir() if p.suffix.lower() == ".pdf")
@@ -138,8 +138,8 @@ def _collect_files(input: List[Path]) -> List[Path]:
 
 def _resolve_output_path(
     input_path: Path,
-    output: Optional[Path],
-    output_dir: Optional[Path],
+    output: Path | None,
+    output_dir: Path | None,
 ) -> Path:
     """Determine output path for a given input."""
     if output:
@@ -155,8 +155,15 @@ def _show_result(result: UnlockResult) -> None:
     name = result.input_path.name
     if result.success:
         if result.was_encrypted:
-            size = format_size(result.output_path.stat().st_size) if result.output_path.exists() else "?"
-            console.print(f"  [bold]{name}[/bold] [green]unlocked[/green] -> {result.output_path.name} ({size})")
+            size = (
+                format_size(result.output_path.stat().st_size)
+                if result.output_path.exists()
+                else "?"
+            )
+            console.print(
+                f"  [bold]{name}[/bold] [green]unlocked[/green]"
+                f" -> {result.output_path.name} ({size})"
+            )
         else:
             console.print(f"  [bold]{name}[/bold] [dim]not encrypted, skipped[/dim]")
     else:

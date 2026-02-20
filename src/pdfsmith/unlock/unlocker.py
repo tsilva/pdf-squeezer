@@ -3,7 +3,6 @@
 import tempfile
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
 
 import pikepdf
 
@@ -16,7 +15,7 @@ class UnlockResult:
     output_path: Path
     success: bool
     was_encrypted: bool
-    error_message: Optional[str] = None
+    error_message: str | None = None
 
 
 def is_encrypted(path: Path) -> bool:
@@ -51,7 +50,7 @@ def unlock_pdf(input_path: Path, output_path: Path, password: str = "") -> Unloc
             was_encrypted=False,
         )
 
-    tmp_path: Optional[Path] = None
+    tmp_path: Path | None = None
     try:
         with tempfile.NamedTemporaryFile(
             suffix=".pdf",

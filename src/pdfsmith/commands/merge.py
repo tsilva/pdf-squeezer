@@ -1,14 +1,14 @@
 """Merge subcommand for pdfsmith."""
 
 from pathlib import Path
-from typing import Annotated, List, Optional
+from typing import Annotated
 
 import typer
 from rich.progress import BarColumn, Progress, SpinnerColumn, TaskProgressColumn, TextColumn
 from rich.prompt import Confirm
 
 from pdfsmith.cli import console
-from pdfsmith.merge.merger import MergeResult, get_base_name, group_similar_pdfs, merge_pdfs
+from pdfsmith.merge.merger import MergeResult, group_similar_pdfs, merge_pdfs
 from pdfsmith.utils.filesize import format_size
 
 
@@ -19,13 +19,13 @@ def register(app: typer.Typer) -> None:
 
 def main(
     input: Annotated[
-        List[Path],
+        list[Path],
         typer.Argument(
             help="PDF files to merge, or a single directory containing PDFs",
         ),
     ],
     output: Annotated[
-        Optional[Path],
+        Path | None,
         typer.Option(
             "-o",
             "--output",
@@ -38,7 +38,10 @@ def main(
         typer.Option(
             "-g",
             "--grouped",
-            help="Merge files grouped by base name (e.g. report-1.pdf + report-2.pdf -> report.merged.pdf)",
+            help=(
+                "Merge files grouped by base name "
+                "(e.g. report-1.pdf + report-2.pdf -> report.merged.pdf)"
+            ),
         ),
     ] = False,
     ask: Annotated[
@@ -85,7 +88,10 @@ def main(
                 raise typer.Exit(1)
 
         if grouped:
-            console.print("[yellow]Warning:[/yellow] --grouped has no effect when files are specified explicitly.")
+            console.print(
+                "[yellow]Warning:[/yellow] --grouped has no effect"
+                " when files are specified explicitly."
+            )
 
         out = output or (input[0].parent / "merged.pdf")
         _run_merge(list(input), out, ask, quiet)
@@ -93,7 +99,7 @@ def main(
 
 def _merge_directory(
     directory: Path,
-    output: Optional[Path],
+    output: Path | None,
     grouped: bool,
     ask: bool,
     quiet: bool,
@@ -161,7 +167,7 @@ def _merge_directory(
         _run_merge(pdf_files, out, ask, quiet)
 
 
-def _run_merge(files: List[Path], output: Path, ask: bool, quiet: bool) -> None:
+def _run_merge(files: list[Path], output: Path, ask: bool, quiet: bool) -> None:
     """Run a single merge operation with optional confirmation."""
     if not quiet:
         console.print(f"Merging [bold]{len(files)}[/bold] file(s) -> [cyan]{output.name}[/cyan]")

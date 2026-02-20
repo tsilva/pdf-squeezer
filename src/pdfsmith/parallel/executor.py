@@ -1,14 +1,14 @@
 """Parallel PDF compression executor."""
 
 import os
+from collections.abc import Callable
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from pathlib import Path
-from typing import Callable, List, Optional, Tuple
 
 from pdfsmith.core.compressor import CompressionOutcome, PDFCompressor
 
 
-def _compress_single(args: Tuple[Path, Path, str]) -> CompressionOutcome:
+def _compress_single(args: tuple[Path, Path, str]) -> CompressionOutcome:
     """
     Worker function for parallel compression.
 
@@ -32,7 +32,7 @@ class ParallelCompressor:
     def __init__(
         self,
         quality: str = "screen",
-        max_workers: Optional[int] = None,
+        max_workers: int | None = None,
     ):
         """
         Initialize the parallel compressor.
@@ -47,9 +47,9 @@ class ParallelCompressor:
 
     def compress_batch(
         self,
-        tasks: List[Tuple[Path, Path]],
-        on_complete: Optional[Callable[[CompressionOutcome], None]] = None,
-    ) -> List[CompressionOutcome]:
+        tasks: list[tuple[Path, Path]],
+        on_complete: Callable[[CompressionOutcome], None] | None = None,
+    ) -> list[CompressionOutcome]:
         """
         Compress multiple PDFs in parallel.
 
@@ -63,7 +63,7 @@ class ParallelCompressor:
         # Prepare args with quality
         args_list = [(input_path, output_path, self.quality) for input_path, output_path in tasks]
 
-        outcomes: List[Optional[CompressionOutcome]] = [None] * len(tasks)
+        outcomes: list[CompressionOutcome | None] = [None] * len(tasks)
 
         with ProcessPoolExecutor(max_workers=self.max_workers) as executor:
             # Submit all tasks
@@ -79,7 +79,7 @@ class ParallelCompressor:
                     outcomes[index] = outcome
                     if on_complete:
                         on_complete(outcome)
-                except Exception as e:
+                except Exception:
                     # Create error outcome
                     input_path, output_path, _ = args_list[index]
                     error_outcome = CompressionOutcome(

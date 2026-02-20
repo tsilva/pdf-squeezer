@@ -3,7 +3,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
 
 
 @dataclass
@@ -11,11 +10,11 @@ class CompressionResult:
     """Result of a compression attempt."""
 
     success: bool
-    output_path: Optional[Path]
+    output_path: Path | None
     original_size: int
     compressed_size: int
     strategy_name: str
-    error_message: Optional[str] = None
+    error_message: str | None = None
 
     @property
     def reduction_ratio(self) -> float:

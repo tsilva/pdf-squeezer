@@ -2,9 +2,8 @@
 
 import re
 from collections import defaultdict
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
 
 import pikepdf
 
@@ -18,7 +17,7 @@ class MergeResult:
     success: bool
     page_count: int = 0
     output_size: int = 0
-    error_message: Optional[str] = None
+    error_message: str | None = None
 
 
 def get_base_name(filename: str) -> str:
