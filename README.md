@@ -1,23 +1,23 @@
+<p align="center">
+  <img src="logo.png" alt="pdf-squeezer" width="512"/>
+  <br />
+  <!-- repo-tagline:start -->
+  <strong>📄 Compress PDFs with multiple strategies and keep the smallest ⚡</strong>
+  <!-- repo-tagline:end -->
+</p>
+
+[![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white)](https://www.python.org/)
+  [![PyPI](https://img.shields.io/pypi/v/pdf-squeezer?logo=pypi&logoColor=white)](https://pypi.org/project/pdf-squeezer/)
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+  [![Ghostscript](https://img.shields.io/badge/Requires-Ghostscript-000000)](https://www.ghostscript.com/)
+
+  [Installation](#installation) · [Usage](#usage) · [How It Works](#how-it-works)
+
 > [!WARNING]
 > ## Archived
 > This project is archived and no longer maintained.
 >
 > Its features have been merged into [pdfsmith](https://github.com/tsilva/pdfpress). Please use that project instead.
-
-<div align="center">
-  <img src="logo.png" alt="pdf-squeezer" width="512"/>
-
-  # pdf-squeezer
-
-  [![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white)](https://www.python.org/)
-  [![PyPI](https://img.shields.io/pypi/v/pdf-squeezer?logo=pypi&logoColor=white)](https://pypi.org/project/pdf-squeezer/)
-  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-  [![Ghostscript](https://img.shields.io/badge/Requires-Ghostscript-000000)](https://www.ghostscript.com/)
-
-  **📄 Compress PDFs by trying multiple strategies and keeping the smallest result ⚡**
-
-  [Installation](#installation) · [Usage](#usage) · [How It Works](#how-it-works)
-</div>
 
 ## Overview
 
